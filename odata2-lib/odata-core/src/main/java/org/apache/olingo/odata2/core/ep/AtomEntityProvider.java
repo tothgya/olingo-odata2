@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -52,6 +51,7 @@ import org.apache.olingo.odata2.api.processor.ODataResponse.ODataResponseBuilder
 import org.apache.olingo.odata2.api.servicedocument.ServiceDocument;
 import org.apache.olingo.odata2.core.commons.ContentType;
 import org.apache.olingo.odata2.core.commons.ContentType.ODataFormat;
+import org.apache.olingo.odata2.core.commons.XmlHelper;
 import org.apache.olingo.odata2.core.ep.aggregator.EntityInfoAggregator;
 import org.apache.olingo.odata2.core.ep.aggregator.EntityPropertyInfo;
 import org.apache.olingo.odata2.core.ep.consumer.AtomServiceDocumentConsumer;
@@ -107,7 +107,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
 
     try {
       OutputStream outStream = csb.getOutputStream();
-      XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
+      XMLStreamWriter writer = XmlHelper.getXMLOutputFactory().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
 
       XmlErrorDocumentProducer producer = new XmlErrorDocumentProducer();
       producer.writeErrorDocument(writer, errorCode, message, locale, innerError);
@@ -150,7 +150,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
       throw e;
     } catch (Exception e) {
       csb.close();
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
+      throw new EntityProviderProducerException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
           .getSimpleName()), e);
     }
   }
@@ -162,7 +162,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
 
     try {
       OutputStream outStream = csb.getOutputStream();
-      XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
+      XMLStreamWriter writer = XmlHelper.getXMLOutputFactory().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
       writer.writeStartDocument(DEFAULT_CHARSET, XML_VERSION);
 
       AtomEntryEntityProducer as = new AtomEntryEntityProducer(properties);
@@ -181,7 +181,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
       throw e;
     } catch (Exception e) {
       csb.close();
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
+      throw new EntityProviderProducerException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
           .getSimpleName()), e);
     }
   }
@@ -198,7 +198,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
 
     try {
       OutputStream outStream = csb.getOutputStream();
-      XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
+      XMLStreamWriter writer = XmlHelper.getXMLOutputFactory().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
       writer.writeStartDocument(DEFAULT_CHARSET, XML_VERSION);
 
       XmlPropertyEntityProducer ps = new XmlPropertyEntityProducer(false, true);
@@ -213,7 +213,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
       throw e;
     } catch (Exception e) {
       csb.close();
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
+      throw new EntityProviderProducerException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
           .getSimpleName()), e);
     }
   }
@@ -225,7 +225,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
 
     try {
       OutputStream outStream = csb.getOutputStream();
-      XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
+      XMLStreamWriter writer = XmlHelper.getXMLOutputFactory().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
       writer.writeStartDocument(DEFAULT_CHARSET, XML_VERSION);
 
       AtomFeedProducer atomFeedProvider = new AtomFeedProducer(properties);
@@ -242,7 +242,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
       throw e;
     } catch (XMLStreamException e) {
       csb.close();
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
+      throw new EntityProviderProducerException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
           .getSimpleName()), e);
     }
   }
@@ -254,7 +254,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
 
     try {
       OutputStream outStream = csb.getOutputStream();
-      XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
+      XMLStreamWriter writer = XmlHelper.getXMLOutputFactory().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
       writer.writeStartDocument(DEFAULT_CHARSET, XML_VERSION);
 
       XmlLinkEntityProducer entity = new XmlLinkEntityProducer(properties);
@@ -270,7 +270,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
       throw e;
     } catch (Exception e) {
       csb.close();
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
+      throw new EntityProviderProducerException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
           .getSimpleName()), e);
     }
 
@@ -283,7 +283,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
 
     try {
       OutputStream outStream = csb.getOutputStream();
-      XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
+      XMLStreamWriter writer = XmlHelper.getXMLOutputFactory().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
       writer.writeStartDocument(DEFAULT_CHARSET, XML_VERSION);
 
       XmlLinksEntityProducer entity = new XmlLinksEntityProducer(properties);
@@ -299,7 +299,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
       throw e;
     } catch (Exception e) {
       csb.close();
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
+      throw new EntityProviderProducerException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
           .getSimpleName()), e);
     }
   }
@@ -310,7 +310,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
 
     try {
       OutputStream outStream = csb.getOutputStream();
-      XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
+      XMLStreamWriter writer = XmlHelper.getXMLOutputFactory().createXMLStreamWriter(outStream, DEFAULT_CHARSET);
       writer.writeStartDocument(DEFAULT_CHARSET, XML_VERSION);
 
       XmlCollectionEntityProducer.append(writer, propertyInfo, data);
@@ -324,7 +324,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
       throw e;
     } catch (Exception e) {
       csb.close();
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
+      throw new EntityProviderProducerException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
           .getSimpleName()), e);
     }
   }
@@ -349,8 +349,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
         return writeSingleTypedElement(info, data);
       }
     } catch (EdmException e) {
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED.addContent(e.getClass()
-          .getSimpleName()), e);
+      throw new EntityProviderProducerException(e.getMessageReference(), e);
     }
   }
 
@@ -419,8 +418,7 @@ public class AtomEntityProvider implements ContentTypeBasedEntityProvider {
           new XmlEntityConsumer().readProperty(info, content, properties).get(info.getName());
       }
     } catch (final EdmException e) {
-      throw new EntityProviderException(EntityProviderException.EXCEPTION_OCCURRED
-          .addContent(e.getClass().getSimpleName()), e);
+      throw new EntityProviderException(e.getMessageReference(), e);
     }
   }
 }
